@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ประกาศว่าเอกสารนี้เป็น XML เวอร์ชัน 1.0 และใช้การเข้ารหัส UTF-8 รองรับตัวอักษรหลายภาษา -->
+
+<!-- Root Element ตามที่โจทย์กำหนด เก็บข้อมูลรายการสั่งซื้อสินค้าทั้งหมด -->
+<PurchaseOrder>
+
+    <!-- คำสั่งซื้อของ Annop Sangsila วันที่ 29 June 2026 (มี 2 รายการสินค้า) -->
+    <!-- Date เก็บเป็น Attribute ตามเงื่อนไขข้อ b -->
+    <Order Date="29 June 2026">
+        <!-- ชื่อลูกค้าเก็บเป็น Element เพราะโจทย์กำหนดให้ Date, Quantity, Price เป็น Attribute เท่านั้น -->
+        <!-- ใช้ OrderID เพื่อเก็บข้อมูลรายการสั่งซื้อ เพื่อแยกระหว่างลูกค้าที่สั่งในวันที่เดียวกัน -->
+        <OrderID>
+            <CustomerName>Annop Sangsila</CustomerName>
+            <Product Quantity="5" Price="10">A4 paper</Product>
+            <Product Quantity="2" Price="5">Ruler</Product>
+        </OrderID>
+
+        <OrderID>
+            <CustomerName>Petpring Malithong</CustomerName>
+            <Product Quantity="10" Price="8">Eraser</Product>
+        </OrderID>
+    </Order>
+    <!-- คำสั่งซื้อของ Thanyalak Sasen วันที่ 04 July 2026 (มี 2 รายการสินค้า) -->
+    <Order Date="04 July 2026">
+        <OrderID>
+            <CustomerName>Thanyalak Sasen</CustomerName>
+            <Product Quantity="2" Price="200">USB</Product>
+            <Product Quantity="10" Price="20">A4 paper</Product>
+        </OrderID>
+    </Order>
+
+</PurchaseOrder>

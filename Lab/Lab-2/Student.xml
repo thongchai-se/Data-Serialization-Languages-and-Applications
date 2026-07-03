@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ประกาศว่าเอกสารนี้เป็น XML เวอร์ชัน 1.0 และใช้การเข้ารหัส UTF-8 -->
+
+<!-- Root Element ครอบข้อมูลนักศึกษาทั้งหมด -->
+<Students>
+
+    <!-- ข้อมูลนักศึกษาคนที่ 1 -->
+    <Student>
+        <!-- แก้ไขจาก <StudentID>67010001<StudentID> เป็น </StudentID> ให้ปิดแท็กถูกต้อง -->
+        <StudentID>67010001</StudentID>
+        <Name>Somchai Jaidee</Name>
+        <!-- แก้ไขจาก </major> เป็น </Major> ให้ตรงกับแท็กเปิด (XML ต้องตรงตัวพิมพ์ใหญ่-เล็ก) -->
+        <Major>Information Technology</Major>
+    </Student>
+
+    <!-- ข้อมูลนักศึกษาคนที่ 2 -->
+    <Student>
+        <StudentID>67010002</StudentID>
+        <!-- แก้ไขจาก <Name>Suda Kongsri (ไม่มีแท็กปิด) เป็น </Name> ให้ครบคู่เปิด-ปิด -->
+        <Name>Suda Kongsri</Name>
+        <Major>Computer Science</Major>
+    </Student>
+
+</Students>
