@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>01 - DOM</title>
+		<script>
+			text = "<customers>" +
+				"<customer id='C2890'>" +
+					"<name>John Wilkey</name>" +
+					"<address>" +
+                        "<street>89 Mohawk Lane</street>" +
+                        "<city>Madison</city>" +
+                        "<state>KY</state>" +
+                    "</address>" +
+				"</customer>" +
+                "<customer id='C28902'>" +
+					"<name>Billy Mac</name>" +
+					"<address>" +
+                        "<street>2424 School Street</street>" +
+                        "<city>Banheim</city>" +
+                        "<state>ME</state>" +
+                    "</address>" +
+				"</customer>" +
+			"</customers>"
+
+			/*
+			customers
+			├── customer [0]
+			│    ├── name → "John Wilkey"  [0]
+			│    └── address [1]
+			│         ├── street → "89 Mohawk Lane"  [0]
+			│         ├── city → "Madison"  [1]
+			│         └── state → "KY"  [2]
+			└── customer [1]
+				├── name → "Billy Mac"  [0]
+				└── address [1]
+					├── street → "2424 School Street"  [0]
+					├── city → "Banheim"  [1]
+					└── state → "ME"  [2]
+			*/
+	
+			parser = new DOMParser()
+			xmlDoc = parser.parseFromString(text, "text/xml")
+			function start() {
+                // ===== ข้อ i: ใช้ Method + Property แสดง name และ state ของ John Wilkey =====
+                alert(xmlDoc.getElementsByTagName("name")[0].nodeName + ": " + xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue + "\n" + 
+                xmlDoc.getElementsByTagName("state")[0].nodeName + ": " + xmlDoc.getElementsByTagName("state")[0].childNodes[0].nodeValue);
+
+                // ===== ข้อ ii: ใช้ Property ทั้งหมด แสดง name, street, city, state ของ Billy Mac =====
+                alert(xmlDoc.documentElement.childNodes[1].childNodes[0].nodeName + ": " + xmlDoc.documentElement.childNodes[1].childNodes[0].childNodes[0].nodeValue + "\n" + 
+                xmlDoc.documentElement.childNodes[1].childNodes[1].childNodes[0].nodeName + ": " + xmlDoc.documentElement.childNodes[1].childNodes[1].childNodes[0].childNodes[0].nodeValue + "\n" + 
+                xmlDoc.documentElement.childNodes[1].childNodes[1].childNodes[1].nodeName + ": " + xmlDoc.documentElement.childNodes[1].childNodes[1].childNodes[1].childNodes[0].nodeValue + "\n" + 
+                xmlDoc.documentElement.childNodes[1].childNodes[1].childNodes[2].nodeName + ": " + xmlDoc.documentElement.childNodes[1].childNodes[1].childNodes[2].childNodes[0].nodeValue);
+               
+			}
+		</script>
+	</head>
+	<body onload="start();">
+    
+	</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <h1>The Document Object</h1>
+    <p>Add new paragraph when input text from text box and press submit</p>
+    <h2 class="example">Please input value:</h2>
+    <form>
+        <input type="text" id="inputText" size="50" />
+        <input type="button" value="Submit" onclick="addParagraph()" />
+    </form>
+    <div id="div1">
+    </div>
+    <script>
+        // ฟังก์ชันที่ถูกเรียกเมื่อกดปุ่ม Submit (onclick="addParagraph()")
+        function addParagraph() {
+            // ดึงข้อความที่ผู้ใช้กรอกจาก textbox ที่มี id="inputText"
+            var text = document.getElementById("inputText").value;
+
+            // สร้าง element แท็ก <p> ใหม่
+            var para = document.createElement("p");
+
+            // สร้าง text node จากข้อความที่ดึงมา
+            var node = document.createTextNode(text);
+
+            // นำ text node ไปใส่เป็นลูกของแท็ก <p>
+            para.appendChild(node);
+
+            // นำแท็ก <p> ที่สร้างเสร็จแล้วไปแสดงภายใน <div id="div1">
+            document.getElementById("div1").appendChild(para);
+        }
+    </script>
+</body>
+
+</html>

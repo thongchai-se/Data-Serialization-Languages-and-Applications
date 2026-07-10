@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<movieDatabase>
+  <movie>
+    <title>Inception</title>
+    <genre>Action, Adventure, Sci-Fi</genre>
+    <year>2010</year>
+    <director>Christopher Nolan</director>
+    <cast>
+      <actor>Leonardo DiCaprio</actor>
+      <actor>Joseph Gordon-Levitt</actor>
+      <actor>Ellen Page</actor>
+    </cast>
+    <duration>148</duration>
+  </movie>
+
+  <movie>
+    <title>The Departed</title>
+    <genre>Crime, Drama, Thriller</genre>
+    <year>2006</year>
+    <director>Martin Scorsese</director>
+    <cast>
+      <actor>Leonardo DiCaprio</actor>
+      <actor>Matt Damon</actor>
+      <actor>Jack Nicholson</actor>
+    </cast>
+    <duration>151</duration>
+  </movie>
+
+  <movie>
+    <title>Se7en</title>
+    <genre>Crime, Drama, Thriller</genre>
+    <year>1995</year>
+    <director>David Fincher</director>
+    <cast>
+      <actor>Brad Pitt</actor>
+      <actor>Morgan Freeman</actor>
+      <actor>Kevin Spacey</actor>
+    </cast>
+    <duration>127</duration>
+  </movie>
+
+  <movie>
+    <title>28 Days Later</title>
+    <genre>Drama, Horror, Sci-Fi, Thriller</genre>
+    <year>2002</year>
+    <director>Danny Boyle</director>
+    <cast>
+      <actor>Cillian Murphy</actor>
+      <actor>Naomie Harris</actor>
+      <actor>Christopher Eccleston</actor>
+    </cast>
+    <duration>113</duration>
+  </movie>
+</movieDatabase>
