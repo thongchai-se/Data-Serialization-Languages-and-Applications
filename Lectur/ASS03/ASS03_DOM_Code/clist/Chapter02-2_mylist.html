@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shelf — My Book List</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0f1720;
+      --ink-soft: #3d4a57;
+      --paper: #f4f6f8;
+      --surface: rgba(255, 255, 255, 0.72);
+      --line: rgba(15, 23, 32, 0.08);
+      --accent: #0c6e6b;
+      --accent-2: #c9783a;
+      --accent-soft: rgba(12, 110, 107, 0.1);
+      --glow: rgba(12, 110, 107, 0.22);
+      --shadow: 0 24px 60px rgba(15, 23, 32, 0.1);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Anuphan", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 500px at 8% -10%, #d9efec 0%, transparent 55%),
+        radial-gradient(700px 420px at 100% 0%, #f3e6d8 0%, transparent 50%),
+        radial-gradient(600px 400px at 70% 100%, #dde8f0 0%, transparent 45%),
+        var(--paper);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(15, 23, 32, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 32, 0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+      opacity: 0.5;
+    }
+
+    .shell {
+      position: relative;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 20px 56px;
+    }
+
+    /* —— Nav —— */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(145deg, var(--accent), #0a4f4d);
+      box-shadow: 0 8px 20px var(--glow);
+      position: relative;
+    }
+
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 8px;
+      bottom: 8px;
+      width: 3px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: 6px 0 0 rgba(255, 255, 255, 0.35), 12px 0 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .brand-name {
+      font-family: "Outfit", sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      position: relative;
+      text-decoration: none;
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+      font-weight: 500;
+      padding-bottom: 3px;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.28s ease;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a:focus-visible::after {
+      transform: scaleX(1);
+    }
+
+    .nav-links a:focus-visible {
+      outline: none;
+      color: var(--ink);
+    }
+
+    /* —— Hero —— */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 18px;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    h1 {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(2.1rem, 4.5vw, 3.1rem);
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      line-height: 1.08;
+      margin: 0 0 12px;
+    }
+
+    h1 span {
+      background: linear-gradient(120deg, var(--accent), #1a8f8a 50%, var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 36ch;
+      color: var(--ink-soft);
+      font-size: 1.02rem;
+      line-height: 1.65;
+    }
+
+    .stat-chip {
+      justify-self: end;
+      backdrop-filter: blur(16px);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px 22px;
+      box-shadow: var(--shadow);
+      min-width: 168px;
+      animation: rise 0.7s ease both;
+    }
+
+    .stat-chip .label {
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+
+    .stat-chip .value {
+      font-family: "Outfit", sans-serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-top: 4px;
+    }
+
+    .stat-chip .value em {
+      font-style: normal;
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      font-weight: 500;
+      margin-left: 4px;
+    }
+
+    /* —— Desk layout —— */
+    .desk {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .glass {
+      backdrop-filter: blur(18px);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .catalog-slip {
+      padding: 22px;
+      position: sticky;
+      top: 18px;
+      animation: rise 0.65s ease 0.08s both;
+    }
+
+    .catalog-slip h2 {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.05rem;
+      font-weight: 650;
+      margin: 0 0 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .catalog-slip .hint {
+      margin: 0 0 18px;
+      font-size: 0.86rem;
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      margin-bottom: 6px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font: inherit;
+      font-size: 0.95rem;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.9);
+      transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+    }
+
+    .field input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+      background: #fff;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .cta {
+      width: 100%;
+      margin-top: 8px;
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      font-family: "Outfit", sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 13px 18px;
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), #0a5856);
+      box-shadow: 0 10px 24px var(--glow);
+      transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+    }
+
+    .cta:hover {
+      filter: brightness(1.05);
+      box-shadow: 0 14px 30px var(--glow);
+    }
+
+    .cta:active { transform: translateY(1px); }
+
+    .shelf {
+      padding: 8px;
+      overflow: hidden;
+      animation: rise 0.7s ease 0.14s both;
+    }
+
+    .shelf-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px 10px;
+    }
+
+    .shelf-head h2 {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.05rem;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .live-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 5px 10px;
+      border-radius: 999px;
+    }
+
+    .live-dot::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 0 var(--glow);
+      animation: pulse 1.8s ease infinite;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+      padding: 0 8px 10px;
+    }
+
+    #tableArea {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 560px;
+    }
+
+    #tableArea thead th {
+      position: sticky;
+      top: 0;
+      text-align: left;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      white-space: nowrap;
+    }
+
+    #tableArea tbody tr {
+      transition: background 0.2s;
+    }
+
+    #tableArea tbody tr:hover {
+      background: var(--accent-soft);
+    }
+
+    #tableArea tbody tr.row-in {
+      animation: rowIn 0.45s ease both;
+    }
+
+    #tableArea td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.92rem;
+      vertical-align: middle;
+    }
+
+    #tableArea tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    #tableArea td:first-child {
+      font-family: "Outfit", sans-serif;
+      font-weight: 600;
+      color: var(--ink-soft);
+      width: 44px;
+    }
+
+    #tableArea td.spine {
+      position: relative;
+      padding-left: 18px;
+      font-weight: 600;
+    }
+
+    #tableArea td.spine::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 12px;
+      bottom: 12px;
+      width: 4px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    }
+
+    #tableArea td.price {
+      font-family: "Outfit", sans-serif;
+      font-weight: 650;
+      font-variant-numeric: tabular-nums;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    #tableArea td.price::after {
+      content: " ฿";
+      font-weight: 500;
+      opacity: 0.7;
+      font-size: 0.85em;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #eef1f4;
+      color: var(--ink-soft);
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes rowIn {
+      from { opacity: 0; transform: translateX(10px); background: var(--accent-soft); }
+      to { opacity: 1; transform: translateX(0); background: transparent; }
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 var(--glow); }
+      70% { box-shadow: 0 0 0 8px transparent; }
+      100% { box-shadow: 0 0 0 0 transparent; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .stat-chip { justify-self: start; }
+      .desk { grid-template-columns: 1fr; }
+      .catalog-slip { position: static; }
+    }
+
+    @media (max-width: 560px) {
+      .nav-links { display: none; }
+      .field-row { grid-template-columns: 1fr; }
+      h1 { font-size: 1.9rem; }
+    }
+  </style>
+  <script>
+    let xmlDoc;
+
+    function loadXMLDoc(filename) {
+      let xhttp = new XMLHttpRequest();
+      xhttp.open("GET", filename, false);
+      xhttp.send();
+      return xhttp.responseXML;
+    }
+
+    function displayTable(animateLast) {
+      let books = xmlDoc.getElementsByTagName("book");
+      let html = "<thead><tr>";
+      html += "<th>No.</th>";
+      html += "<th>Title</th>";
+      html += "<th>Author</th>";
+      html += "<th>Category</th>";
+      html += "<th>Year</th>";
+      html += "<th>Price</th>";
+      html += "</tr></thead><tbody>";
+
+      for (let i = 0; i < books.length; i++) {
+        let rowClass = (animateLast && i === books.length - 1) ? ' class="row-in"' : "";
+        html += "<tr" + rowClass + ">";
+        html += "<td>" + (i + 1) + "</td>";
+        html += "<td class=\"spine\">" + books[i].getElementsByTagName("title")[0].childNodes[0].nodeValue + "</td>";
+        html += "<td>" + books[i].getElementsByTagName("author")[0].childNodes[0].nodeValue + "</td>";
+        html += "<td><span class=\"tag\">" + books[i].getElementsByTagName("category")[0].childNodes[0].nodeValue + "</span></td>";
+        html += "<td>" + books[i].getElementsByTagName("year")[0].childNodes[0].nodeValue + "</td>";
+        html += "<td class=\"price\">" + books[i].getElementsByTagName("price")[0].childNodes[0].nodeValue + "</td>";
+        html += "</tr>";
+      }
+
+      html += "</tbody>";
+      document.getElementById("tableArea").innerHTML = html;
+      document.getElementById("bookCount").textContent = books.length;
+    }
+
+    function init() {
+      xmlDoc = loadXMLDoc("Chapter02-2_mylist.xml");
+      displayTable(false);
+    }
+
+    function addRecord() {
+      let form = document.webform;
+      let values = [
+        form.title.value,
+        form.author.value,
+        form.category.value,
+        form.year.value,
+        form.price.value
+      ];
+
+      for (let i = 0; i < values.length; i++) {
+        if (!String(values[i]).trim()) {
+          form.elements[i].focus();
+          return;
+        }
+      }
+
+      let old = xmlDoc.getElementsByTagName("book")[0];
+      let clone = old.cloneNode(true);
+      let length = clone.children.length;
+      for (let i = 0; i < length; i++) {
+        clone.children[i].childNodes[0].nodeValue = values[i];
+      }
+      xmlDoc.documentElement.appendChild(clone);
+      displayTable(true);
+
+      form.reset();
+      form.title.focus();
+    }
+  </script>
+</head>
+
+<body onload="init()">
+  <div class="shell">
+    <nav class="nav" aria-label="หลัก">
+      <a class="brand" href="#">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">Shelf</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#catalog">เพิ่มหนังสือ</a></li>
+        <li><a href="#shelf">ชั้นหนังสือ</a></li>
+      </ul>
+    </nav>
+
+    <header class="hero">
+      <div>
+        <div class="eyebrow">HTML DOM + AJAX</div>
+        <h1>ชั้นหนังสือของฉัน<br /><span>อัปเดตสดจาก XML</span></h1>
+        <p class="lead">โหลดรายการเริ่มต้นจากไฟล์ XML แล้วเพิ่มเรคคอร์ดใหม่ในหน่วยความจำ — ตารางรีเฟรชทันทีทุกครั้งที่กด Add</p>
+      </div>
+      <div class="stat-chip" aria-live="polite">
+        <div class="label">หนังสือในชั้น</div>
+        <div class="value"><span id="bookCount">0</span><em>เล่ม</em></div>
+      </div>
+    </header>
+
+    <div class="desk">
+      <form name="webform" id="catalog" class="glass catalog-slip" autocomplete="off">
+        <h2>บัตรลงทะเบียนหนังสือ</h2>
+        <p class="hint">กรอกแล้วกด Add — สร้าง node ใน XML Document Object แล้วอัปเดตตาราง</p>
+
+        <div class="field">
+          <label for="title">Title</label>
+          <input id="title" name="title" type="text" placeholder="เช่น Clean Architecture" />
+        </div>
+        <div class="field">
+          <label for="author">Author</label>
+          <input id="author" name="author" type="text" placeholder="ชื่อผู้แต่ง" />
+        </div>
+        <div class="field">
+          <label for="category">Category</label>
+          <input id="category" name="category" type="text" placeholder="Programming / Web / Database" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="year">Year</label>
+            <input id="year" name="year" type="text" placeholder="2024" />
+          </div>
+          <div class="field">
+            <label for="price">Price</label>
+            <input id="price" name="price" type="text" placeholder="450" />
+          </div>
+        </div>
+
+        <input class="cta" type="button" value="Add Book" onclick="addRecord()" />
+      </form>
+
+      <section id="shelf" class="glass shelf" aria-label="ตารางหนังสือ">
+        <div class="shelf-head">
+          <h2>ชั้นหนังสือสด</h2>
+          <span class="live-dot">Live XML</span>
+        </div>
+        <div class="table-scroll">
+          <table id="tableArea"></table>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>HTML DOM</title>
+   <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+    <header id="main-header" class="bg-success text-white p-4 mb-3">
+       <div class="container">
+       <h1 id="header-title1">Hello World1</h1>
+       <h1 id="header-title2">Hello World2</h1>
+       </div>
+    </header>  
+    <script>
+       var header= document.getElementById("main-header");
+       var headtitle2=document.getElementById("header-title2");
+       header.style.borderBottom="solid 6px #000";
+       headtitle2.style.color = "Yellow";
+       headtitle2.style.fontFamily = "Courier New";
+    </script>
+</body>
+</html>

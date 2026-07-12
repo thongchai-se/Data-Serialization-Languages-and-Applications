@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HTML DOM + AJAX</title>
+</head>
+<body>
+
+  <button type="button" onclick="loadXMLDoc()">Get the Contributor List</button>
+  <button type="button" onclick="window.open('clist.html')">Add the Contributor List</button>
+
+<br><br>
+<table border ="1" id="tableArea"></table>
+
+<script>
+function loadXMLDoc() {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      displayTable(this);
+    }
+  };
+  xmlhttp.open("GET", "clist.xml", true);
+  xmlhttp.send();
+}
+
+function displayTable(xml) {
+
+    var i;
+    var xmlDoc = xml.responseXML;
+    let persons = xmlDoc.getElementsByTagName("person");
+
+    let html = "<table border='1' cellpadding='5' cellspacing='0'>";
+
+    html += "<tr>";
+    html += "<th>No.</th>";
+    html += "<th>First Name</th>";
+    html += "<th>Last Name</th>";
+    html += "<th>Street</th>";
+    html += "<th>City</th>";
+    html += "<th>State</th>";
+    html += "<th>Zip</th>";
+    html += "<th>Amount</th>";
+    html += "<th>Date</th>";
+    html += "</tr>";
+
+    for(let i=0;i<persons.length;i++){
+
+        html += "<tr>";
+        html += "<td>"+(i+1)+"</td>";
+        html += "<td>"+persons[i].getElementsByTagName("first_name")[0].childNodes[0].nodeValue+"</td>";
+        html += "<td>"+persons[i].getElementsByTagName("last_name")[0].childNodes[0].nodeValue+"</td>";
+        html += "<td>"+persons[i].getElementsByTagName("street")[0].childNodes[0].nodeValue+"</td>";
+        html += "<td>"+persons[i].getElementsByTagName("city")[0].childNodes[0].nodeValue+"</td>";
+        html += "<td>"+persons[i].getElementsByTagName("state")[0].childNodes[0].nodeValue+"</td>";
+        html += "<td>"+persons[i].getElementsByTagName("zip")[0].childNodes[0].nodeValue+"</td>";
+        html += "<td>"+persons[i].getElementsByTagName("amount")[0].childNodes[0].nodeValue+"</td>";
+        html += "<td>"+persons[i].getElementsByTagName("date")[0].childNodes[0].nodeValue+"</td>";
+        html += "</tr>";
+    }
+
+    html += "</table>";
+
+    document.getElementById("tableArea").innerHTML = html;
+
+}
+
+
+</script>
+
+</body>
+</html>

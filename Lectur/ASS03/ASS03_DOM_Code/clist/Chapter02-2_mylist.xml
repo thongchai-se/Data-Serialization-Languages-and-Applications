@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+  <book>
+    <title>Clean Code</title>
+    <author>Robert C. Martin</author>
+    <category>Programming</category>
+    <year>2008</year>
+    <price>450</price>
+  </book>
+  <book>
+    <title>Eloquent JavaScript</title>
+    <author>Marijn Haverbeke</author>
+    <category>Web</category>
+    <year>2018</year>
+    <price>390</price>
+  </book>
+  <book>
+    <title>Designing Data-Intensive Applications</title>
+    <author>Martin Kleppmann</author>
+    <category>Database</category>
+    <year>2017</year>
+    <price>680</price>
+  </book>
+</books>
