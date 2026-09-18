@@ -9,7 +9,8 @@ function loadXML() {
   xhttp.open("GET", "movie.xml", true);
   xhttp.send();
 }
-  
+
+
   function parseXML(xml) {
     let movieList = xml.getElementsByTagName("movie");
 

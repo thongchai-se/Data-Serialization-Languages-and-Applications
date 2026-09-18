@@ -1,0 +1,4 @@
+# เปิดใช้ URL Rewrite ของ Apache
+RewriteEngine On
+# แปลง /athlete/1 เป็น api.php?a_id=1 แล้วจบกฎ ([L])
+RewriteRule ^athlete/([0-9]+)$ api.php?a_id=$1 [L]
